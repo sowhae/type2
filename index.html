@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gesture-Driven Letter Physics</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="container">
+        <!-- Main physics canvas -->
+        <canvas id="physicsCanvas"></canvas>
+
+        <!-- Webcam preview -->
+        <div id="webcamPreview">
+            <video id="webcam" autoplay playsinline></video>
+            <canvas id="trackingCanvas"></canvas>
+        </div>
+
+        <!-- Gesture indicators -->
+        <div id="gestureIndicators">
+            <div class="indicator" id="gravityIndicator">
+                <span class="label">Gravity</span>
+                <div class="arrow" id="gravityArrow">↓</div>
+            </div>
+            <div class="indicator" id="massIndicator">
+                <span class="label">Mass Mode</span>
+                <span class="value" id="massValue">Normal</span>
+            </div>
+            <div class="indicator" id="swipeIndicator">
+                <span class="label">Swipe</span>
+                <div class="swipe-visual" id="swipeVisual"></div>
+            </div>
+        </div>
+
+        <!-- Loading overlay -->
+        <div id="loadingOverlay">
+            <div class="loading-content">
+                <h2>Initializing...</h2>
+                <p>Loading models and camera</p>
+                <div class="spinner"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/matter-js@0.19.0/build/matter.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
+
+    <!-- Main application -->
+    <script src="app.js"></script>
+</body>
+</html>
