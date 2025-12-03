@@ -20,7 +20,7 @@ const render = Render.create({
         width: window.innerWidth,
         height: window.innerHeight,
         wireframes: false,
-        background: '#f8f9fa'
+        background: '#0a0e27'
     }
 });
 
@@ -33,13 +33,13 @@ Runner.run(runner, engine);
 // ===========================
 
 let physicsParams = {
-    gravity: { x: 0, y: 1 },
-    targetGravity: { x: 0, y: 1 },
+    gravity: { x: 0, y: 0.15 },
+    targetGravity: { x: 0, y: 0.15 },
     massMultiplier: 1.0,
     targetMassMultiplier: 1.0,
     restitution: 0.6,
     targetRestitution: 0.6,
-    friction: 0.1
+    friction: 0.05
 };
 
 const MASS_MODES = {
@@ -62,7 +62,7 @@ const walls = [
         window.innerHeight + wallThickness / 2,
         window.innerWidth,
         wallThickness,
-        { isStatic: true, render: { fillStyle: '#34495e' } }
+        { isStatic: true, render: { fillStyle: '#1a1f3a' } }
     ),
     // Left wall
     Bodies.rectangle(
@@ -70,7 +70,7 @@ const walls = [
         window.innerHeight / 2,
         wallThickness,
         window.innerHeight,
-        { isStatic: true, render: { fillStyle: '#34495e' } }
+        { isStatic: true, render: { fillStyle: '#1a1f3a' } }
     ),
     // Right wall
     Bodies.rectangle(
@@ -78,7 +78,7 @@ const walls = [
         window.innerHeight / 2,
         wallThickness,
         window.innerHeight,
-        { isStatic: true, render: { fillStyle: '#34495e' } }
+        { isStatic: true, render: { fillStyle: '#1a1f3a' } }
     ),
     // Ceiling
     Bodies.rectangle(
@@ -86,7 +86,7 @@ const walls = [
         -wallThickness / 2,
         window.innerWidth,
         wallThickness,
-        { isStatic: true, render: { fillStyle: '#34495e' } }
+        { isStatic: true, render: { fillStyle: '#1a1f3a' } }
     )
 ];
 
@@ -118,11 +118,11 @@ function createLetterBlock(letter, x, y) {
     return body;
 }
 
-// Create initial letters
+// Create initial letters (start at top for space-like floating effect)
 for (let i = 0; i < 15; i++) {
     const letter = letters[Math.floor(Math.random() * letters.length)];
     const x = Math.random() * (window.innerWidth - 200) + 100;
-    const y = Math.random() * (window.innerHeight / 2 - 200) + 50;
+    const y = -100 - (i * 60); // Start above the viewport, staggered vertically
     const letterBody = createLetterBlock(letter, x, y);
     letterBodies.push(letterBody);
 }
@@ -150,9 +150,9 @@ Events.on(render, 'afterRender', () => {
         context.shadowOffsetX = 3;
         context.shadowOffsetY = 3;
 
-        // Draw letter background
-        context.fillStyle = '#ffffff';
-        context.strokeStyle = '#2c3e50';
+        // Draw letter background with glow
+        context.fillStyle = '#e8f4f8';
+        context.strokeStyle = '#4fc3f7';
         context.lineWidth = 3;
         context.fillRect(-letterSize/2, -letterSize/2, letterSize, letterSize);
         context.strokeRect(-letterSize/2, -letterSize/2, letterSize, letterSize);
@@ -161,7 +161,7 @@ Events.on(render, 'afterRender', () => {
         context.shadowColor = 'transparent';
 
         // Draw letter text
-        context.fillStyle = '#2c3e50';
+        context.fillStyle = '#1565c0';
         context.font = 'bold 32px Arial';
         context.textAlign = 'center';
         context.textBaseline = 'middle';
@@ -280,8 +280,8 @@ function onFaceResults(results) {
         const eyeDeltaY = rightEye.y - leftEye.y;
         const rollAngle = Math.atan2(eyeDeltaY, eyeDeltaX);
 
-        // Map roll angle to gravity vector
-        const maxTilt = 1.0;
+        // Map roll angle to gravity vector (reduced for space-like feel)
+        const maxTilt = 0.15;
         physicsParams.targetGravity.x = Math.sin(rollAngle) * maxTilt;
         physicsParams.targetGravity.y = Math.cos(rollAngle) * maxTilt;
 
@@ -544,28 +544,28 @@ window.addEventListener('resize', () => {
             window.innerHeight + wallThickness / 2,
             window.innerWidth,
             wallThickness,
-            { isStatic: true, render: { fillStyle: '#34495e' } }
+            { isStatic: true, render: { fillStyle: '#1a1f3a' } }
         ),
         Bodies.rectangle(
             -wallThickness / 2,
             window.innerHeight / 2,
             wallThickness,
             window.innerHeight,
-            { isStatic: true, render: { fillStyle: '#34495e' } }
+            { isStatic: true, render: { fillStyle: '#1a1f3a' } }
         ),
         Bodies.rectangle(
             window.innerWidth + wallThickness / 2,
             window.innerHeight / 2,
             wallThickness,
             window.innerHeight,
-            { isStatic: true, render: { fillStyle: '#34495e' } }
+            { isStatic: true, render: { fillStyle: '#1a1f3a' } }
         ),
         Bodies.rectangle(
             window.innerWidth / 2,
             -wallThickness / 2,
             window.innerWidth,
             wallThickness,
-            { isStatic: true, render: { fillStyle: '#34495e' } }
+            { isStatic: true, render: { fillStyle: '#1a1f3a' } }
         )
     ];
 
